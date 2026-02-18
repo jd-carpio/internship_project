@@ -85,7 +85,9 @@ public class Engine {
             if (input.isJustPressed(KeyKind.MOVE_LEFT)
                 || input.getFramesHeld(KeyKind.MOVE_LEFT) > attrs.das()) {
                 tryMovePiece(activePiece.getPosition().add(0, -1));
-            } else if (input.isJustPressed(KeyKind.MOVE_RIGHT)) {
+            } else if (input.isJustPressed(KeyKind.MOVE_RIGHT)
+                || input.getFramesHeld(KeyKind.MOVE_RIGHT) > attrs.das())
+                {
                 tryMovePiece(activePiece.getPosition().add(0, 1)); 
             }
 
@@ -108,9 +110,9 @@ public class Engine {
         if (input.isJustPressed(KeyKind.SONIC_DROP)) {
             isHardDropping = true;
         }
-
         // 5. Updates counters for all held button presses
         input.step();
+        
     }
    
     /** Processes gravity, applying downward movement to the active piece. */

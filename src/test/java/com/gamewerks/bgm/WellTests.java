@@ -3,6 +3,8 @@ package com.gamewerks.bgm;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import com.gamewerks.bgm.engine.Well;
 
@@ -81,8 +83,9 @@ public class WellTests {
           {o, o, o, o}
         };
         Well well = new Well(grid);
-        well.deleteRow(3);
-        assertTrue(well.isCompletedRow(1));
-        assertFalse(well.isCompletedRow(0));
+        List<Integer> list = List.of(0, 1, 2);
+        well.deleteRows(list);
+        assertFalse(well.isCompletedRow(3));
+        assertFalse(well.isCompletedRow(4));
     }
 }
