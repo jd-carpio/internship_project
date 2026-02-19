@@ -43,6 +43,12 @@ public class Engine {
     private void trySpawnBlock() {
         if (activePiece == null) {
             entryCounter += 1;
+            int judge;
+            if(lineWasCleared){
+                judge = attrs.lineClearDleay();
+            }else
+                judge = attrs.are();
+            if(entryCounter >= judge){
             activePiece = new Piece(PieceKind.I,
                 new Position(Constants.BOARD_HEIGHT - 1, Constants.BOARD_WIDTH / 2 - 2));
             entryCounter = 0;
@@ -52,6 +58,7 @@ public class Engine {
             }
         }
     }
+}
 
     /**
      * Try to move the active piece to the new position, resetting if the

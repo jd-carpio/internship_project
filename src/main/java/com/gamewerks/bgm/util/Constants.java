@@ -32,7 +32,7 @@ public class Constants {
     /**
      * Soft drop gravity, i.e., the gravity used when soft dropping a piece.
      */
-    public static final int GRAVITY_SOFT_DROP = GRAVITY_1G / 20;
+    public static final int GRAVITY_SOFT_DROP = GRAVITY_1G / 80;
    
     /** The path to the data directory. */
     public static final String DATA_PATH = "data";
