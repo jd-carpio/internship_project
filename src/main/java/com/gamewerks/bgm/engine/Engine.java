@@ -24,7 +24,7 @@ public class Engine {
     private boolean lineWasCleared;
     private boolean isSoftDropping;
     private boolean isHardDropping;
-    
+
     /** Constructs a new Blocky game engine with default attributes. */
     public Engine() {
         board = new Well();
@@ -35,9 +35,9 @@ public class Engine {
         isHardDropping = false;
         attrs = new GameAttributes(48, 25, 14, 30, 40, 24);
         input = new InputState();
-        pieceList = PieceKind.ALL.clone(); 
-        shuffle(pieceList);                  
-        curIndex = 0;  
+        pieceList = PieceKind.ALL.clone();
+        shuffle(pieceList);
+        curIndex = 0;
         trySpawnBlock();
     }
 
@@ -50,26 +50,27 @@ public class Engine {
         if (activePiece == null) {
             entryCounter += 1;
             int judge;
-            if (lineWasCleared){
+            if (lineWasCleared) {
                 judge = attrs.lineClearDleay();
-            }else{
+            } else {
                 judge = attrs.are();
             }
-            if (entryCounter >= judge){
-            activePiece = new Piece(nextPiece(),
-                new Position(Constants.BOARD_HEIGHT - 1, Constants.BOARD_WIDTH / 2 - 2));
-            entryCounter = 0;
-            lineWasCleared = false;
-            if (board.collides(activePiece)) {
-                System.exit(0);
+            if (entryCounter >= judge) {
+                activePiece = new Piece(nextPiece(),
+                        new Position(Constants.BOARD_HEIGHT - 1, Constants.BOARD_WIDTH / 2 - 2));
+                entryCounter = 0;
+                lineWasCleared = false;
+                if (board.collides(activePiece)) {
+                    System.exit(0);
+                }
             }
         }
     }
-}
 
     /**
      * Try to move the active piece to the new position, resetting if the
      * movement would cause a collision.
+     * 
      * @param newPos the candidate position
      */
     private void tryMovePiece(Position newPos) {
@@ -81,7 +82,9 @@ public class Engine {
     /**
      * Tries to rotate the piece in the given direction, resetting if the
      * movement would cause a collision.
-     * @param clockwise true if we wish to rotate clockwise, else rotate counterclockwise
+     * 
+     * @param clockwise true if we wish to rotate clockwise, else rotate
+     *                  counterclockwise
      */
     private void tryRotatePiece(boolean clockwise) {
         if (activePiece != null) {
@@ -97,11 +100,11 @@ public class Engine {
         if (activePiece != null) {
             // 1. Process shifting
             if (input.isJustPressed(KeyKind.MOVE_LEFT)
-                || input.getFramesHeld(KeyKind.MOVE_LEFT) > attrs.das()) {
+                    || input.getFramesHeld(KeyKind.MOVE_LEFT) > attrs.das()) {
                 tryMovePiece(activePiece.getPosition().add(0, -1));
             } else if (input.isJustPressed(KeyKind.MOVE_RIGHT)
-                || input.getFramesHeld(KeyKind.MOVE_RIGHT) > attrs.das()) {
-                tryMovePiece(activePiece.getPosition().add(0, 1)); 
+                    || input.getFramesHeld(KeyKind.MOVE_RIGHT) > attrs.das()) {
+                tryMovePiece(activePiece.getPosition().add(0, 1));
             }
 
             // 2. Process rotations
@@ -125,15 +128,15 @@ public class Engine {
         }
         // 5. Updates counters for all held button presses
         input.step();
-        
+
     }
-   
+
     /** Processes gravity, applying downward movement to the active piece. */
     private void processGravity() {
         if (activePiece == null) {
             return;
         }
-        Position candidate = activePiece.getPosition(); 
+        Position candidate = activePiece.getPosition();
         int gravDelta = attrs.gravity();
         if (isHardDropping) {
             gravDelta = Constants.GRAVITY_20G;
@@ -170,9 +173,10 @@ public class Engine {
         lockCounter = 0;
         activePiece.moveTo(candidate);
     }
-  
+
     /**
      * Compute and process all cleared lines from the well
+     * 
      * @return true iff at least one line is cleared
      */
     private boolean processClearedLines() {
@@ -180,7 +184,7 @@ public class Engine {
         board.deleteRows(completedRows);
         return completedRows.size() > 0;
     }
-   
+
     /** Steps the game engine one frame forward. */
     public void step() {
         trySpawnBlock();
@@ -188,19 +192,20 @@ public class Engine {
         processGravity();
         lineWasCleared = processClearedLines();
     }
-   
+
     /** @return the well associated to this board. */
     public boolean[][] getWell() {
         return board.getGrid();
     }
-   
+
     /** @return the currently active piece. */
-    public Piece getActivePiece() { 
+    public Piece getActivePiece() {
         return activePiece;
     }
 
     /**
      * Notifies the game that the given key has been pressed.
+     * 
      * @param key the pressed key
      */
     public void keyDown(KeyKind key) {
@@ -209,6 +214,7 @@ public class Engine {
 
     /**
      * Notifies the game that the given key has been released.
+     * 
      * @param key the released key
      */
     public void keyUp(KeyKind key) {
@@ -217,25 +223,25 @@ public class Engine {
 
     /**
      * Changes the order of the array elements.
-     * @param array the array holds multiple pieces 
+     * @param array the array holds multiple pieces
      */
-    public void shuffle(PieceKind[] array){
+    public void shuffle(PieceKind[] array) {
         for (int i = array.length - 1; i > 0; i--) {
             int j = ThreadLocalRandom.current().nextInt(i + 1);
             PieceKind temp = array[i];
             array[i] = array[j];
             array[j] = temp;
+        }
     }
-  }
 
     /**
      * Keep track of the next piece in the array.
      * @return return the next piece in the array
      */
-    public PieceKind nextPiece(){
+    public PieceKind nextPiece() {
         PieceKind next = pieceList[curIndex];
-        curIndex ++;
-        if (curIndex == pieceList.length){
+        curIndex++;
+        if (curIndex == pieceList.length) {
             shuffle(pieceList);
             curIndex = 0;
         }
