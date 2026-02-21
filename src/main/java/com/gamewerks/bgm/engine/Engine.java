@@ -50,11 +50,12 @@ public class Engine {
         if (activePiece == null) {
             entryCounter += 1;
             int judge;
-            if(lineWasCleared){
+            if (lineWasCleared){
                 judge = attrs.lineClearDleay();
-            }else
+            }else{
                 judge = attrs.are();
-            if(entryCounter >= judge){
+            }
+            if (entryCounter >= judge){
             activePiece = new Piece(nextPiece(),
                 new Position(Constants.BOARD_HEIGHT - 1, Constants.BOARD_WIDTH / 2 - 2));
             entryCounter = 0;
@@ -99,8 +100,7 @@ public class Engine {
                 || input.getFramesHeld(KeyKind.MOVE_LEFT) > attrs.das()) {
                 tryMovePiece(activePiece.getPosition().add(0, -1));
             } else if (input.isJustPressed(KeyKind.MOVE_RIGHT)
-                || input.getFramesHeld(KeyKind.MOVE_RIGHT) > attrs.das())
-                {
+                || input.getFramesHeld(KeyKind.MOVE_RIGHT) > attrs.das()) {
                 tryMovePiece(activePiece.getPosition().add(0, 1)); 
             }
 
@@ -222,9 +222,9 @@ public class Engine {
     public void shuffle(PieceKind[] array){
         for (int i = array.length - 1; i > 0; i--) {
             int j = ThreadLocalRandom.current().nextInt(i + 1);
-            PieceKind temp= array[i];
-            array[i]=array[j];
-            array[j]=temp;
+            PieceKind temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
     }
   }
 
@@ -233,11 +233,11 @@ public class Engine {
      * @return return the next piece in the array
      */
     public PieceKind nextPiece(){
-        PieceKind next=pieceList[curIndex];
+        PieceKind next = pieceList[curIndex];
         curIndex ++;
-        if(curIndex==pieceList.length){
+        if (curIndex == pieceList.length){
             shuffle(pieceList);
-            curIndex =0;
+            curIndex = 0;
         }
         return next;
     }
