@@ -1,6 +1,7 @@
 package com.gamewerks.bgm.engine;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.gamewerks.bgm.util.Constants;
 import com.gamewerks.bgm.util.Position;
@@ -15,6 +16,8 @@ public class Engine {
     private Piece activePiece;
     private GameAttributes attrs;
     private InputState input;
+    private PieceKind[] pieceList;
+    private int curIndex;
 
     private int lockCounter;
     private int entryCounter;
@@ -32,6 +35,9 @@ public class Engine {
         isHardDropping = false;
         attrs = new GameAttributes(48, 25, 14, 30, 40, 24);
         input = new InputState();
+        pieceList = PieceKind.ALL.clone(); 
+        shuffle(pieceList);                  
+        curIndex = 0;  
         trySpawnBlock();
     }
 
@@ -49,7 +55,7 @@ public class Engine {
             }else
                 judge = attrs.are();
             if(entryCounter >= judge){
-            activePiece = new Piece(PieceKind.I,
+            activePiece = new Piece(nextPiece(),
                 new Position(Constants.BOARD_HEIGHT - 1, Constants.BOARD_WIDTH / 2 - 2));
             entryCounter = 0;
             lineWasCleared = false;
@@ -207,5 +213,32 @@ public class Engine {
      */
     public void keyUp(KeyKind key) {
         input.keyUp(key);
+    }
+
+    /**
+     * Changes the order of the array elements.
+     * @param array the array holds multiple pieces 
+     */
+    public void shuffle(PieceKind[] array){
+        for (int i = array.length - 1; i > 0; i--) {
+            int j = ThreadLocalRandom.current().nextInt(i + 1);
+            PieceKind temp= array[i];
+            array[i]=array[j];
+            array[j]=temp;
+    }
+  }
+
+    /**
+     * Keep track of the next piece in the array.
+     * @return return the next piece in the array
+     */
+    public PieceKind nextPiece(){
+        PieceKind next=pieceList[curIndex];
+        curIndex ++;
+        if(curIndex==pieceList.length){
+            shuffle(pieceList);
+            curIndex =0;
+        }
+        return next;
     }
 }

@@ -2,14 +2,13 @@
 
 ## About
 
-_(TODO: insert a description of the project here!)_
+A Tetris-like game built by fixing bugs and completing unfinished code left by a former intern.
 
 ### Authors
 
-*   _(TODO: insert your names here!)_
-*  ...
+*  Risa Takemoto
+*  Juan Diego Carpio Hurtado
 
 ### Resources
 
-*   _(TODO: list your resources here!)_
-*   ...
+*   Asked a question to mentor Sam about how WellTest works.
