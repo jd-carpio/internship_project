@@ -12,7 +12,7 @@ The Blocky game starts in the Main class. The program:
 
 The default key bindings for the game are:
 
-+ Move left: MOVE_LEFT
++ Move left: Up
 + Move right: MOVE_RIGHT
 + [Soft Drop](https://tetris.wiki/Drop#Soft_drop): SOFT_DROP
 + [Sonic Drop](https://tetris.wiki/Drop#Instant_drop): SONIC_DROP
@@ -26,7 +26,7 @@ Each iteration of the game loop executes one _frame_ of the game and the loop ru
 
 The engine class represents the core game engine. A blocky game consists of two components, well and the currently active piece, along with auxiliary state. When running a frame, the following methods are called:
 
-1.  typeSpawn: spawns a new active piece if one does not exist. Also checks to see if the game is over (if the newly spawned active piece collides with the well).
+1.  trySpawn: spawns a new active piece if one does not exist. Also checks to see if the game is over (if the newly spawned active piece collides with the well).
 2.  `processInput()`: Processes the input detected on the given frame.
 3.  processGravity: enacts gravity on the active piece, pushing it down the well.
 4.  processClearedLines: ompute and process all cleared lines from the well
